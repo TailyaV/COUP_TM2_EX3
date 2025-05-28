@@ -1,0 +1,90 @@
+#taliyarial1@gmail.com
+CXX = g++
+CXXFLAGS = -std=c++2a -Wall -Wextra -g 
+RM = rm -f
+
+# Default target: build the 'prog' executable
+all: prog
+
+# 'Main' target: run the 'main' executable
+Main: main
+	./main
+
+# 'test' target: run the 'Test' and 'GUI_Test' executable used for running tests.
+test: Test GUI_Test
+	./Test
+	./GUI_Test
+
+# Build 'main' from 'main.cpp' and object files
+main: main.cpp GUI.o Game.o Player.o Governor.o Baron.o General.o Judge.o Merchant.o Spy.o
+	$(CXX) $(CXXFLAGS) main.cpp GUI.o Game.o Player.o Governor.o Baron.o General.o Judge.o Merchant.o Spy.o -o main -lsfml-graphics -lsfml-window -lsfml-system
+
+# Build 'Test' from 'Test.cpp' and object files
+Test: Test.cpp GUI.o Game.o Player.o Governor.o Baron.o General.o Judge.o Merchant.o Spy.o
+	$(CXX) $(CXXFLAGS) Test.cpp GUI.o Game.o Player.o Governor.o Baron.o General.o Judge.o Merchant.o Spy.o -o Test -lsfml-graphics -lsfml-window -lsfml-system
+
+# Build 'GUI_Test' from 'GUI_Test.cpp' and object files
+GUI_Test: GUI_Test.cpp GUI.o Game.o Player.o Governor.o Baron.o General.o Judge.o Merchant.o Spy.o
+	$(CXX) $(CXXFLAGS) GUI_Test.cpp GUI.o Game.o Player.o Governor.o Baron.o General.o Judge.o Merchant.o Spy.o -o GUI_Test -lsfml-graphics -lsfml-window -lsfml-system
+
+
+# Build 'prog' from object files
+prog: main.o GUI.o Game.o Player.o Governor.o Baron.o General.o Judge.o Merchant.o Spy.o
+	$(CXX) $(CXXFLAGS) main.o GUI.o Game.o Player.o Governor.o Baron.o General.o Judge.o Merchant.o Spy.o -o prog -lsfml-graphics -lsfml-window -lsfml-system
+
+# Compile 'main.o' from 'main.cpp'
+main.o: main.cpp
+	$(CXX) $(CXXFLAGS) -c main.cpp
+
+# Compile 'GUI.o' from 'GUI.cpp'
+GUI.o: GUI.cpp
+	$(CXX) $(CXXFLAGS) -c GUI.cpp
+
+# Compile 'Game.o' from 'Game.cpp'
+Game.o: Game.cpp
+	$(CXX) $(CXXFLAGS) -c Game.cpp
+
+# Compile 'Player.o' from 'Player.cpp' and 'Role.hpp'
+Player.o: Player.cpp Role.hpp
+	$(CXX) $(CXXFLAGS) -c Player.cpp
+
+# Compile 'Governor.o' from 'Governor.cpp'
+Governor.o: Governor.cpp
+	$(CXX) $(CXXFLAGS) -c Governor.cpp
+
+# Compile 'Baron.o' from 'Baron.cpp'
+Baron.o: Baron.cpp
+	$(CXX) $(CXXFLAGS) -c Baron.cpp
+
+# Compile 'General.o' from 'General.cpp'
+General.o: General.cpp
+	$(CXX) $(CXXFLAGS) -c General.cpp
+
+# Compile 'Judge.o' from 'Judge.cpp'
+Judge.o: Judge.cpp
+	$(CXX) $(CXXFLAGS) -c Judge.cpp
+
+# Compile 'Merchant.o' from 'Merchant.cpp'
+Merchant.o: Merchant.cpp
+	$(CXX) $(CXXFLAGS) -c Merchant.cpp
+
+# Compile 'Spy.o' from 'Spy.cpp'
+Spy.o: Spy.cpp
+	$(CXX) $(CXXFLAGS) -c Spy.cpp
+
+# 'valgrind' target: run the program with valgrind for memory leak checking
+valgrind: prog
+	valgrind --leak-check=yes --errors-for-leak-kinds=definite ./prog
+
+# 'valgrind_GUI_Test' target: run the program with valgrind for memory leak checking
+valgrind_GUI_Test: GUI_Test
+	valgrind --leak-check=yes --errors-for-leak-kinds=definite ./GUI_Test
+
+# 'valgrind_Test' target: run the Test with valgrind for memory leak checking
+valgrind_Test: Test
+	valgrind --leak-check=yes --errors-for-leak-kinds=definite ./Test
+#	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --show-reachable=no -s ./prog
+
+# Clean target: remove all generated files object files and executables
+clean:
+	$(RM) main.o GUI.o Game.o Player.o prog Governor.o Baron.o General.o Judge.o Merchant.o Spy.o Test GUI_Test main
