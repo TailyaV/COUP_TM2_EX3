@@ -33,7 +33,6 @@ Functions:
 - destroyInstance - Deletes and resets the game instance.
 - setPlayers - Adds a player to the internal player list (up to numOfPlayers).
 - nextTurn - Advances the game to the next turn, handles bribe logic and skips eliminated players.
-- getCurrNumOfPlayers - Returns how many players are still active (not couped).
 - isCouped - Returns true if player i was couped.
 - isAnyPlayers - Returns true if at least one player is in the game.
 - gameWiner - Returns the number of the winning player if only one remains, otherwise -1.
